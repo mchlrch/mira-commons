@@ -1,0 +1,16 @@
+:: td4j
+- ch.miranet.vof (unstable)
+
+
+:: immofilter
+- OneToManyMap
+- ...
+
+
+:: issuetracker
+- JpaCtrl, PersistenceManager
+- ...
+
+
+
+>>> dumplinx

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/td4j/!svn/ver/145/trunk/td4j/src/org/td4j/core/tk/feature
+END
+FeatureRepository.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/td4j/!svn/ver/154/trunk/td4j/src/org/td4j/core/tk/feature/FeatureRepository.java
+END
+FeatureKey.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/td4j/!svn/ver/145/trunk/td4j/src/org/td4j/core/tk/feature/FeatureKey.java
+END
+FeatureProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/td4j/!svn/ver/145/trunk/td4j/src/org/td4j/core/tk/feature/FeatureProvider.java
+END
