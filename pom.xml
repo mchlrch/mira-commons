@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ch.miranet</groupId>
-	<artifactId>mira-commons</artifactId>
-	<version>1.0</version>
+	<groupId>ch.miranet.commons</groupId>
+	<artifactId>commons-mira</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>mira-commons</name>
-	<url>http://www.miranet.ch/projects/mira-commons</url>
+	<name>commons-mira</name>
+	<url>http://commons.miranet.ch/commons-mira/</url>
 
 	<licenses>
 		<license>
@@ -18,6 +18,12 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
+
+	<scm>
+		<connection>scm:hg:http://bitbucket.org/mira/mira-commons</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/mira/mira-commons</developerConnection>
+		<url>http://bitbucket.org/mira/mira-commons</url>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,12 +59,12 @@
 
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>				
+				<version>2.2</version>
 				<configuration>
 					<descriptor>src/main/assembly/project.xml</descriptor>
 					<descriptorRefs>
 						<descriptorRef>bin</descriptorRef>
-					</descriptorRefs>					
+					</descriptorRefs>
 				</configuration>
 				<executions>
 					<execution>
@@ -86,7 +92,7 @@
 				<configuration>
 					<ignoreMissingFile>false</ignoreMissingFile>
 					<file>TEMPLATE_README</file>
-				    <outputFile>README</outputFile>
+					<outputFile>README</outputFile>
 					<replacements>
 						<replacement>
 							<token>@VERSION@</token>
