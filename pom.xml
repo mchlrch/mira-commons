@@ -9,7 +9,7 @@
 
 	<groupId>ch.miranet.commons</groupId>
 	<artifactId>commons-mira</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>commons-mira</name>
@@ -27,7 +27,7 @@
 
 	<scm>
 		<connection>scm:hg:http://bitbucket.org/mira/mira-commons</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/mira/mira-commons</developerConnection>
+		<developerConnection>scm:hg:${staging.hg.repo.url}</developerConnection>
 		<url>http://bitbucket.org/mira/mira-commons</url>
 	</scm>
 
