@@ -2,6 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
+
 	<groupId>ch.miranet.commons</groupId>
 	<artifactId>commons-mira</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -9,6 +15,7 @@
 
 	<name>commons-mira</name>
 	<url>http://commons.miranet.ch/commons-mira/</url>
+	<description>miras utility library</description>
 
 	<licenses>
 		<license>
@@ -24,6 +31,14 @@
 		<developerConnection>scm:hg:https://bitbucket.org/mira/mira-commons</developerConnection>
 		<url>http://bitbucket.org/mira/mira-commons</url>
 	</scm>
+
+	<developers>
+		<developer>
+			<id>mira</id>
+			<name>Michael Rauch</name>
+			<email>mira@miranet.ch</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,6 +65,20 @@
 					<execution>
 						<id>attach-sources</id>
 						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>						
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -104,6 +133,21 @@
 						</replacement>
 					</replacements>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.1</version>				
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
