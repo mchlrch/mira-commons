@@ -16,6 +16,7 @@
         <exclude>**/${project.build.directory}/**</exclude>
         <exclude>**/test-output/**</exclude>
         <exclude>NEXTSTEPS</exclude>
+        <exclude>TEMPLATE_README</exclude>
       </excludes>
     </fileSet>
   </fileSets>
