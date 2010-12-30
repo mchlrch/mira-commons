@@ -22,15 +22,31 @@ package ch.miranet.commons;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.miranet.commons.filter.AcceptAllFilter;
 import ch.miranet.commons.filter.Filter;
+import ch.miranet.commons.transformer.Transformer;
 
 public class ListTK {
 
-	public static <T> List<T> filter(List<T> baseList, Filter<T> filter) {
+	public static <T> List<T> filter(List<T> baseList, Filter<? super T> filter) {
 		final ArrayList<T> result = new ArrayList<T>();
 		for (T element : baseList) {
 			if (filter.accept(element)) {
 				result.add(element);
+			}
+		}
+		return result;
+	}
+	
+	public static <I, O> List<O> transform(List<I> baseList, Transformer<? super I, O> transformer) {
+		return filterAndTransform(baseList, AcceptAllFilter.getInstance(), transformer);
+	}
+	
+	public static <I, O> List<O> filterAndTransform(List<I> baseList, Filter<? super I> filter, Transformer<? super I, O> transformer) {
+		final ArrayList<O> result = new ArrayList<O>();
+		for (I input : baseList) {
+			if (filter.accept(input)) {
+				result.add(transformer.transform(input));
 			}
 		}
 		return result;
