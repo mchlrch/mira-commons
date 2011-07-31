@@ -2,7 +2,7 @@
   This file is part of the 'mira-commons' library,
   see <http://www.miranet.ch/projects/mira-commons>
 
-  Copyright (C) 2010 Michael Rauch
+  Copyright (C) 2010, 2011 Michael Rauch
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,27 +17,18 @@
   limitations under the License. 
  *********************************************************************/
 
-package ch.miranet.commons.filter;
+package ch.miranet.commons.tk;
 
-import ch.miranet.commons.TK;
+public class Objects {
 
-/**
- * All filters must accept.
- */
-public class CompositeFilter<T> implements Filter<T> {
-
-	private final Filter<? super T>[] delegates;
-
-	public CompositeFilter(Filter<? super T>... delegates) {
-		this.delegates = TK.Arrays.assertNotEmpty(delegates, "delegates");
+	public boolean equal(Object o1, Object o2) {
+		return o1 != null ? o1.equals(o2) : o2 == null;
 	}
 
-	public boolean accept(T element) {
-		boolean accepted = true;
-		for (int i = 0, n = delegates.length; accepted && i < n; i++) {
-			accepted = delegates[i].accept(element);
-		}
-		return accepted;
+	public <T> T assertNotNull(T obj, String name) {
+		if (obj == null)
+			throw new NullPointerException(name);
+		return obj;
 	}
 
 }

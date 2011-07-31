@@ -23,29 +23,31 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.miranet.commons.ObjectTK;
+import ch.miranet.commons.TK;
 
 public class SvcRepository implements SvcProvider {
 
 	private final Map<Class<?>, Object> implMap = new HashMap<Class<?>, Object>();
 	private final Map<Class<?>, Konstruktor> implConstructorMap = new HashMap<Class<?>, Konstruktor>();
-	
+
 	@Override
 	public <T> T getService(Class<T> svcDef) {
-		
+
 		@SuppressWarnings("unchecked")
 		T impl = (T) implMap.get(svcDef);
-		
-		if (impl == null) impl = createByImplConstructor(svcDef);
-		
+
+		if (impl == null)
+			impl = createByImplConstructor(svcDef);
+
 		return impl;
 	}
-	
+
 	@Override
 	public <T> T requireService(Class<T> svcDef) {
 		final T svc = getService(svcDef);
 		if (svc == null) {
-			throw new IllegalStateException("Required Service not available: " + svcDef);
+			throw new IllegalStateException("Required Service not available: "
+					+ svcDef);
 		} else {
 			return svc;
 		}
@@ -53,76 +55,89 @@ public class SvcRepository implements SvcProvider {
 
 	public <T, I extends T> void setSingletonService(Class<T> svcDef, I svcImpl) {
 		verifyServiceUndefined(svcDef);
-		
+
 		implMap.put(svcDef, svcImpl);
 	}
 
-	public <T> void setSingletonService(Class<T> svcDef, Class<? extends T> svcImpl) {
+	public <T> void setSingletonService(Class<T> svcDef,
+			Class<? extends T> svcImpl) {
 		verifyServiceUndefined(svcDef);
-		
+
 		Konstruktor konstruktor = null;
-		
-		// prefer no-arg constructor over constructor with SvcRepository as argument
+
+		// prefer no-arg constructor over constructor with SvcRepository as
+		// argument
 		try {
-			 final Constructor<? extends T> constructor = svcImpl.getConstructor();
-			 konstruktor = new Konstruktor(Konstruktor.ArgType.NoArg, constructor);
+			final Constructor<? extends T> constructor = svcImpl
+					.getConstructor();
+			konstruktor = new Konstruktor(Konstruktor.ArgType.NoArg,
+					constructor);
 		} catch (SecurityException e) {
 			throw new RuntimeException(e);
 		} catch (NoSuchMethodException e) {
 			// try constructor with SvcProvider argument
 		}
-		
+
 		// try constructor with SvcProvider as argument
 		if (konstruktor == null) {
 			try {
-				final Constructor<? extends T> constructor = svcImpl.getConstructor(SvcProvider.class);
-				konstruktor = new Konstruktor(Konstruktor.ArgType.SvcProviderArg, constructor);
+				final Constructor<? extends T> constructor = svcImpl
+						.getConstructor(SvcProvider.class);
+				konstruktor = new Konstruktor(
+						Konstruktor.ArgType.SvcProviderArg, constructor);
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
 			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("No appropriate constructor found in " + svcImpl + " : init() or init(" + SvcProvider.class.getName() + ")");
-			}	
+				throw new IllegalArgumentException(
+						"No appropriate constructor found in " + svcImpl
+								+ " : init() or init("
+								+ SvcProvider.class.getName() + ")");
+			}
 		}
-		
+
 		implConstructorMap.put(svcDef, konstruktor);
 	}
-	
+
 	private <T> T createByImplConstructor(Class<T> svcDef) {
 		final Konstruktor konstruktor = implConstructorMap.get(svcDef);
 		if (konstruktor != null) {
-			
+
 			@SuppressWarnings("unchecked")
 			final T svc = (T) konstruktor.newInstance(this);
 			return svc;
 		}
-		
+
 		return null;
-	}	
-	
+	}
+
 	private void verifyServiceUndefined(Class<?> svcDef) {
 		if (implMap.containsKey(svcDef)
 				|| implConstructorMap.containsKey(svcDef)) {
-			
-			throw new IllegalStateException("Service implementation already defined.");
+
+			throw new IllegalStateException(
+					"Service implementation already defined.");
 		}
 	}
-	
+
 	// --------------------------------------------------------------
-	
+
 	static class Konstruktor {
-		private static enum ArgType {NoArg, SvcProviderArg}
-		
+		private static enum ArgType {
+			NoArg, SvcProviderArg
+		}
+
 		private final ArgType argType;
 		private final Constructor<?> constructor;
-		
+
 		private Konstruktor(ArgType argType, Constructor<?> constructor) {
-			this.argType = ObjectTK.enforceNotNull(argType, "argType");
-			this.constructor = ObjectTK.enforceNotNull(constructor, "constructor");
+			this.argType = TK.Objects.assertNotNull(argType, "argType");
+			this.constructor = TK.Objects.assertNotNull(constructor,
+					"constructor");
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		private <T> T newInstance(SvcProvider repo) {
-			try { 
+			try {
 				if (argType == ArgType.NoArg) {
 					return (T) constructor.newInstance();
 				} else {
@@ -132,7 +147,7 @@ public class SvcRepository implements SvcProvider {
 				throw new RuntimeException(ex);
 			}
 		}
-		
+
 	}
-	
+
 }

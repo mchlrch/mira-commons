@@ -17,27 +17,28 @@
   limitations under the License. 
  *********************************************************************/
 
-package ch.miranet.commons.filter;
+package ch.miranet.commons.tk;
 
-import ch.miranet.commons.TK;
+import java.lang.reflect.Proxy;
 
-/**
- * All filters must accept.
- */
-public class CompositeFilter<T> implements Filter<T> {
+import ch.miranet.commons.reflect.DelegateFusionInvocationHandler;
 
-	private final Filter<? super T>[] delegates;
+public class Proxies {
 
-	public CompositeFilter(Filter<? super T>... delegates) {
-		this.delegates = TK.Arrays.assertNotEmpty(delegates, "delegates");
+	public <T> T createProxy(Class<T> iface, Object... delegates) {
+		final Object proxy = createProxy(Objects.class.getClassLoader(), new Class<?>[] { iface }, delegates);
+
+		// This is OK, as the return type equals the implemented interface
+		@SuppressWarnings("unchecked")
+		final T proxyResult = (T) proxy;
+
+		return proxyResult;
 	}
 
-	public boolean accept(T element) {
-		boolean accepted = true;
-		for (int i = 0, n = delegates.length; accepted && i < n; i++) {
-			accepted = delegates[i].accept(element);
-		}
-		return accepted;
+	public Object createProxy(ClassLoader loader, Class<?>[] ifaces, Object... delegates) {
+		final DelegateFusionInvocationHandler handler = new DelegateFusionInvocationHandler(ifaces, delegates);
+		final Object proxy = Proxy.newProxyInstance(loader, ifaces, handler);
+		return proxy;
 	}
 
 }

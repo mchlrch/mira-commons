@@ -6,6 +6,7 @@
 
 :: ..
 - OneToManyMap
+  - refactor issuetracker.EntityRepo to use OneToManyMap
 - ...
 
 

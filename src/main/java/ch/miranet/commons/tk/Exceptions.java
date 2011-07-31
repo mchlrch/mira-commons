@@ -2,7 +2,7 @@
   This file is part of the 'mira-commons' library,
   see <http://www.miranet.ch/projects/mira-commons>
 
-  Copyright (C) 2010 Michael Rauch
+  Copyright (C) 2010, 2011 Michael Rauch
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,27 +17,20 @@
   limitations under the License. 
  *********************************************************************/
 
-package ch.miranet.commons.filter;
+package ch.miranet.commons.tk;
 
-import ch.miranet.commons.TK;
+import java.lang.reflect.InvocationTargetException;
 
-/**
- * All filters must accept.
- */
-public class CompositeFilter<T> implements Filter<T> {
+public class Exceptions {
 
-	private final Filter<? super T>[] delegates;
+	public Throwable unwrap(Throwable throwable) {
+		if (throwable instanceof RuntimeException || throwable instanceof InvocationTargetException) {
+			final Throwable cause = throwable.getCause();
+			return cause != null ? unwrap(cause) : throwable;
 
-	public CompositeFilter(Filter<? super T>... delegates) {
-		this.delegates = TK.Arrays.assertNotEmpty(delegates, "delegates");
-	}
-
-	public boolean accept(T element) {
-		boolean accepted = true;
-		for (int i = 0, n = delegates.length; accepted && i < n; i++) {
-			accepted = delegates[i].accept(element);
+		} else {
+			return throwable;
 		}
-		return accepted;
 	}
 
 }
