@@ -17,27 +17,42 @@
   limitations under the License. 
  *********************************************************************/
 
-package ch.miranet.commons.filter;
+package ch.miranet.commons.tk;
 
-import ch.miranet.commons.TK;
+import org.testng.annotations.Test;
 
-/**
- * All filters must accept.
- */
-public class CompositeFilter<T> implements Filter<T> {
+public class ProxiesTest {
 
-	private final Filter<? super T>[] delegates;
+	private final Proxies tk = new Proxies();
 
-	public CompositeFilter(Filter<? super T>... delegates) {
-		this.delegates = TK.Arrays.assertNotEmpty(delegates, "delegates");
+	@Test
+	public void testCreateProxy() {
+		final Reader reader = new Reader() {
+			public String read() {
+				return "a";
+			}
+		};
+
+		final Writer writer = new Writer() {
+			public boolean write(String s) {
+				return "a".equals(s);
+			}
+		};
+
+		final ReadWrite rw = tk.createProxy(ReadWrite.class, reader, writer);
+		assert rw.read().equals("a");
+		assert rw.write("a");
 	}
 
-	public boolean accept(T element) {
-		boolean accepted = true;
-		for (int i = 0, n = delegates.length; accepted && i < n; i++) {
-			accepted = delegates[i].accept(element);
-		}
-		return accepted;
+	public interface Reader {
+		public String read();
 	}
+
+	public interface Writer {
+		public boolean write(String s);
+	}
+
+	public interface ReadWrite extends Reader, Writer {
+	};
 
 }

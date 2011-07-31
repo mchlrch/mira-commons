@@ -17,27 +17,37 @@
   limitations under the License. 
  *********************************************************************/
 
-package ch.miranet.commons.filter;
+package ch.miranet.commons.tk;
 
-import ch.miranet.commons.TK;
+import org.testng.annotations.Test;
 
-/**
- * All filters must accept.
- */
-public class CompositeFilter<T> implements Filter<T> {
+public class ObjectsTest {
 
-	private final Filter<? super T>[] delegates;
+	private final Objects tk = new Objects();
 
-	public CompositeFilter(Filter<? super T>... delegates) {
-		this.delegates = TK.Arrays.assertNotEmpty(delegates, "delegates");
+	@Test
+	public void testEqual() {
+		final String a = "a";
+		final String b = "b";
+
+		assert tk.equal(a, a);
+		assert tk.equal(null, null);
+
+		assert !tk.equal(a, b);
+		assert !tk.equal(a, null);
+		assert !tk.equal(null, a);
 	}
 
-	public boolean accept(T element) {
-		boolean accepted = true;
-		for (int i = 0, n = delegates.length; accepted && i < n; i++) {
-			accepted = delegates[i].accept(element);
-		}
-		return accepted;
+	@Test
+	public void testEnforceNotNullSuccess() {
+		final String name = "homer";
+		final String s = tk.assertNotNull(name, "name");
+		assert s == name;
+	}
+
+	@Test(expectedExceptions = { NullPointerException.class })
+	public void testEnforceNotNullFailure() {
+		tk.assertNotNull(null, "name");
 	}
 
 }
