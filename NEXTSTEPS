@@ -1,0 +1,15 @@
+:: td4j-issuetracker
+- EntityRepo (in-memory)
+- JpaCtrl, PersistenceManager
+(- ch.miranet.vof (unstable) )
+
+
+:: ..
+- OneToManyMap
+  - refactor issuetracker.EntityRepo to use OneToManyMap
+- ...
+
+
+:: isponge
+- JpaCtrl
+>>> dumplinx
