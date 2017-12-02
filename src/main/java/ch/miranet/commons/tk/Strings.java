@@ -61,6 +61,10 @@ public class Strings {
 		}
 		return result.toString();
 	}
+	
+	public int compareNullSafe(String s1, String s2) {
+		return ("" + s1).compareTo("" + s2);
+	}
 
 	public static class EmptyStringException extends IllegalArgumentException {
 		private static final long serialVersionUID = 1L;
