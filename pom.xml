@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<name>commons-mira</name>
-	<url>http://commons.miranet.ch/commons-mira/</url>
+	<url>http://www.miranet.ch/projects/mira-commons</url>
 	<description>miras utility library</description>
 
 	<licenses>
@@ -35,7 +35,7 @@
 		<developer>
 			<id>mira</id>
 			<name>Michael Rauch</name>
-			<email>mira@miranet.ch</email>
+			<email>src.mra@miranet.ch</email>
 		</developer>
 	</developers>
 
